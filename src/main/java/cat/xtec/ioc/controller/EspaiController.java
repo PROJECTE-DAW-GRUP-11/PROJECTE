@@ -46,17 +46,18 @@ public class EspaiController {
         modelview.getModelMap().addAttribute("espais", espaiService.getAllEspais());
         return modelview;
     }
+    
 
     /*AFEGIR ESPAI */
-//    @RequestMapping("/afegir")
-//    public ModelAndView addEspai(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException, SQLException {
-//        ModelAndView modelview = new ModelAndView("espais/nouEspai");
-//        Equip formEquip = null;
-//        formEquip = new Equip();
-//        modelview.getModelMap().addAttribute("formNouEspai", formEquip);
-//        return modelview;
-//    }
+    @RequestMapping("/afegir")
+    public ModelAndView addEspai(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        ModelAndView modelview = new ModelAndView("espais/nouEspai");
+        Espai formNouEspai = null;
+        formNouEspai = new Espai();
+        modelview.getModelMap().addAttribute("formNouEspai", formNouEspai);
+        return modelview;
+    }
     /**
      * **********************************************************************************************
      * OBTENIR ESPAI PER CORDI I MODIFICAR UN ESPAI - Permet afegir equipament a
@@ -101,6 +102,27 @@ public class EspaiController {
         modelview.getModelMap().addAttribute("espai", espaiService.getEspaiByCodi(codi));
         return modelview;
     }
+    
+    
+    /*CREAR ESPAI --> nouEspai.jsp */
+    @RequestMapping(value = "/nouEspai", method = RequestMethod.POST, params = "desar")
+    public String processFormNouEspai(@ModelAttribute("formNouEspai") Espai formNouEspai, Model model, BindingResult result) throws Exception {
+
+        //Comprova si l'espai ja existeix.
+        Espai espaiExisteix = espaiService.getEspaiByCodi(formNouEspai.getCodi());
+
+        if (espaiExisteix != null) {
+            model.addAttribute("message", "Espai ja existeix");
+            return "espais/nouEspai";
+        } else {
+            espaiService.addEspai(formNouEspai);
+            return "redirect:/espais/llistar";
+        }
+    }
+    
+    
+    
+    
 
     /*/************************************************************************************************
     ACTUALITZA USUARI LLEGINT LES DADES DEL FORMULARI 

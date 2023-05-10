@@ -29,7 +29,7 @@ public class LoginController {
     @RequestMapping("login")
     public ModelAndView login(HttpSession session, HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        String idusuari = request.getParameter("idusuari");
+        String idusuari = request.getParameter("idusuari").toUpperCase();
         String password = request.getParameter("password");
         String message;
         System.out.println(idusuari);
@@ -52,17 +52,26 @@ public class LoginController {
             //ACTUA EN FUNCIÓ DEL ROL DE L'USUARI
             if ("Administrador".equals(usuari.getRol())) {
                 ModelAndView modelview = new ModelAndView("/inici/administrador");
-                 session.setAttribute("rol", usuari.getRol());
+                session.setAttribute("id",usuari.getIdUsuari());
                 session.setAttribute("usuari",usuari.getNom());
                 session.setAttribute("cognoms",usuari.getCognoms());
+                session.setAttribute("email", usuari.getEmail());
+                session.setAttribute("telefon", usuari.getTelefon());
+                session.setAttribute("password", usuari.getPassword());
+                session.setAttribute("rol", usuari.getRol());
                 return modelview;
 
             }
 
             if ("Tecnic".equals(usuari.getRol())) {
                 ModelAndView modelview = new ModelAndView("/inici/tecnic");
+                session.setAttribute("id",usuari.getIdUsuari());
                 session.setAttribute("usuari",usuari.getNom());
                 session.setAttribute("cognoms",usuari.getCognoms());
+                session.setAttribute("email", usuari.getEmail());
+                session.setAttribute("telefon", usuari.getTelefon());
+                session.setAttribute("password", usuari.getPassword());
+                session.setAttribute("rol", usuari.getRol());
                 return modelview;
 
             }

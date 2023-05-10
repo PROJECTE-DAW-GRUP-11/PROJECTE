@@ -110,6 +110,8 @@ public class EquipController {
             
             String codiEspai = request.getParameter("espais");
             equipService.updateEquip(formEquip);
+            //Actualiza l'espai on s'assigna l'equip.
+            espaiService.deleteEquipEspai(equip.getCodi());
             espaiService.addEquipEspai(codiEspai, equip.getCodi());
             return "redirect:/equips/equip?codi=" + equip.getCodi();
 

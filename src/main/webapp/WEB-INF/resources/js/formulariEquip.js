@@ -20,6 +20,8 @@ var numSerie = document.getElementById("numserie");
 var marca = document.getElementById("marca");
 var model = document.getElementById("model");
 var estat = document.getElementById("estat");
+var espais = document.getElementById("espais");
+
 
 
 //Comprova si tots els camps del formulari s'han omplert.
@@ -28,26 +30,34 @@ function validaFormulari() {
         alert("S'han d'omplir tots els camps");
         return false;
     }
-    return true;
+
+    return confirm("Desar canvis?");
+    //return true;
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    let estat = document.getElementById("estat");
+document.addEventListener("DOMContentLoaded", function() {
     let btnDelete = document.getElementById("btnDelete");
     let btnSave = document.getElementById("btnSave");
 
     if (estat.value === ESTAT.REPARACIO) {
         estat.disabled = true;
+        espais.disabled = true;
         btnDelete.disabled = true;
         btnSave.disabled = true;
     }
 
     if (estat.value === ESTAT.SERVEI) {
         btnDelete.disabled = true;
+        espais.disabled = false;
     }
-    /*Amaga selector llistat d'espais*/
-    document.getElementById("espais").style.display = "none";
+
+    if (estat.value === ESTAT.STOCK) {
+        espais.disabled = true;
+
+    }
+
+
 
 });
 
@@ -62,19 +72,22 @@ function confirmActionDelete() {
 /*CONFIRMA SI:
     - Assignar un equip a un espai.
     - Retirar un equip d'un espai */
-estat.onchange = function () {
+estat.onchange = function() {
     let espai = document.getElementById("espai");
+
     if (estat.value === ESTAT.STOCK && espai.innerHTML !== "") {
 
         if (confirm("Aquest equip es troba assignat a un espai. Treure l'equip de l'espai?")) {
             espai.innerHTML = "";
+            espais.disabled = true;
         }
 
     }
 
     if (estat.value === ESTAT.SERVEI) {
         if (confirm("Assignar l'equip a un espai?")) {
-            document.getElementById("espais").style.display = "block";
+            espais.disabled = false;
+
         }
     }
 }

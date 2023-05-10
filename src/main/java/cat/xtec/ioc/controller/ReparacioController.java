@@ -37,8 +37,9 @@ public class ReparacioController {
 
     public Reparacio reparacio = new Reparacio();
     private static final String REPARACIO_ESTAT_TANCADA = "Tancada";
-    private static final String USUARI_ROL_TECNICC ="Tecnic";
+    private static final String USUARI_ROL_TECNIC ="Tecnic";
     private static final String EQUIP_ESTAT_STOCK = "Stock";
+    private static final String EQUIP_ESTAT_REPARACIO = "Reparacio";
 
     //RETORNA TOTES LES REPARACIONS
     @RequestMapping("/llistar")
@@ -80,7 +81,7 @@ public class ReparacioController {
 
         /*Mostrar usuaris en rol Tecnic */
         List<Usuari> usuaris = null;
-        usuaris = usuariService.getUsuarisByRol(USUARI_ROL_TECNICC);
+        usuaris = usuariService.getUsuarisByRol(USUARI_ROL_TECNIC);
         if (usuaris != null) {
             modelview.getModelMap().addAttribute("tecnics", usuaris);
         }
@@ -116,11 +117,38 @@ public class ReparacioController {
 
     }
 
-    /*SOL·LICITAR REPARACIO*/
+    /*SOL·LICITAR REPARACIO PER PART DE L'USUARI*/
     @RequestMapping("/sollicitud")
     public ModelAndView solReparacio(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         ModelAndView modelview = new ModelAndView("reparacions/solReparacio");
+        List<Equip> equips = equipService.getAllEquips();
+        modelview.addObject("equips", equips); 
         return modelview;
+    }
+    
+    @RequestMapping(value = "/solReparacio", method = RequestMethod.POST, params ="desar")
+    public String processFormNovaReparacio(@ModelAttribute("formNovaReparacio") 
+            Reparacio formReparacio) 
+            throws Exception {        
+        
+        /*Actualitza l'estat de l'equip: Reparacio*/
+        Equip equip = equipService.getEquipByCodi(formReparacio.getIdEquip());;
+        equip.setEstat(EQUIP_ESTAT_REPARACIO);
+        equipService.updateEquip(equip);
+
+        /*Escriu una data d'inici data actual*/
+        String dataInici = LocalDate.now().toString();
+  
+        String comentari = formReparacio.getComentaris();
+  
+        /*Crea la reparació*/
+        Reparacio reparacio = new Reparacio(0,formReparacio.getIdEquip(), 
+                dataInici, null, comentari, null, 
+                null,"Nova");
+
+        reparacioService.addReparacio(reparacio);
+        return "redirect:/usuaris/user";
+
     }
 }

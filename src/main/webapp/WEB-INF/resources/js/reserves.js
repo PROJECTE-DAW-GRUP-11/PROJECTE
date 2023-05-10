@@ -14,11 +14,22 @@ function myFunction(){
        x.value=filterSala;
        return true;
    }else{
-       alert("Seleccioneu sala");
+       alert("Selecciona una sala");
       return false;
    }  
    
 }
+
+function verificar(){
+    var ok=confirm("Segur que vol eliminar la reserva?");
+if (ok){
+   return true ; 
+}
+else{
+     return false ;
+}
+}
+
 
 function selFunction(){
     
@@ -33,7 +44,7 @@ function selFunction(){
     table = document.getElementById("mytable");
   tr = table.getElementsByTagName("tr");
    
-     for (i = 1; i < tr.length; i++) {
+     for (i = 0; i < tr.length; i++) {
       
   
           visibleSala = false;
@@ -86,7 +97,7 @@ function reservesSetmana(){
    for(var k=0;k<trDiasReservas.length;k++){
            tdDiasReservas = trDiasReservas[k].getElementsByTagName("td");
            
-          for(var j=0;j<tdDiasReservas.length;j++){
+          for(var j=1;j<tdDiasReservas.length;j++){
               
                tdDiasReservas[j].style.backgroundColor="white";
           }}
@@ -104,7 +115,7 @@ function reservesSetmana(){
           for(var k=0;k<trDiasReservas.length;k++){
            tdDiasReservas = trDiasReservas[k].getElementsByTagName("td");
            
-          for(var j=0;j<tdDiasReservas.length;j++){
+          for(var j=1;j<tdDiasReservas.length;j++){
               var filaValueDia=tdDiasReservas[0].getAttribute("dia");
               if(filaValueDia==dia){
 
@@ -147,10 +158,10 @@ function validaFormulari(){
     var indexTemps=document.getElementById("selTemps").selectedIndex ;
    var filterTemps = document.getElementById("selTemps").options[indexTemps].text;
    
-   if(filterSetmanes!=="Setmanes",filterDias!=="Dia"&&filterHoras!=="Hora"&&filterTemps!=="Temps"){
+   if(filterSetmanes!=="Setmanes"&&filterDias!=="Dia"&&filterHoras!=="Hora"&&filterTemps!=="Temps"){
   return true    ; 
    }else{
-       alert("Omplir tots els camps");
+       alert("Cal omplir tots els camps");
        return false;
    }
    
@@ -166,10 +177,12 @@ function comprobarDisponibilidad(){
     var indexTemps=document.getElementById("selTemps").selectedIndex ;
    var filterTemps = document.getElementById("selTemps").options[indexTemps].text;
    
-   if(filterDias!=="Dia"&&filterHoras!=="Hora"&&filterTemps!=="Temps"){
+    var indexSetmanes=document.getElementById("setmanes").selectedIndex ;
+   var filterSetmanes = document.getElementById("setmanes").options[indexSetmanes].text;
+   
+   if(filterDias!=="Dia"&&filterHoras!=="Hora"&&filterTemps!=="Temps"&&filterSetmanes!=="Setmanes"){
        
-//           var indexSetmanes=document.getElementById("setmanes").selectedIndex ;
-//   var filterSetmanes = document.getElementById("setmanes").options[indexSetmanes].text;
+     
     
   table = document.getElementById("reservesSala");
   tr = table.getElementsByTagName("tr"); 
@@ -180,7 +193,7 @@ function comprobarDisponibilidad(){
    for(var k=0;k<trDiasReservas.length;k++){
            tdDiasReservas = trDiasReservas[k].getElementsByTagName("td");
            
-          for(var j=0;j<tdDiasReservas.length;j++){
+          for(var j=1;j<tdDiasReservas.length;j++){
               if(tdDiasReservas[j].style.backgroundColor!=="red")
                tdDiasReservas[j].style.backgroundColor="white";
           }}
@@ -190,29 +203,31 @@ function comprobarDisponibilidad(){
           for(var k=0;k<trDiasReservas.length;k++){
            tdDiasReservas = trDiasReservas[k].getElementsByTagName("td");
            
-          for(var j=0;j<tdDiasReservas.length;j++){
+          for(var j=1;j<tdDiasReservas.length;j++){
               var filaValueDia=tdDiasReservas[0].getAttribute("dia");
               if(filaValueDia==filterDias){
 
                   var filaValueHora=tdDiasReservas[j].getAttribute("hora");
                   if(filaValueHora==filterHoras){
-                      if(tdDiasReservas[j].style.backgroundColor=="white"){
+                      if(tdDiasReservas[j].style.backgroundColor=="white"&&"1"==filterTemps){
                          
                           tdDiasReservas[j].style.backgroundColor="green";
+                           document.getElementById("setmanes").disabled=true;
                       }
                       
-                     
-                       if("2"==filterTemps){
-                          if( tdDiasReservas[j+1].style.backgroundColor=="white"){
+             
+                         else if( tdDiasReservas[j].style.backgroundColor=="white"&&
+                                 "2"==filterTemps&&j<tdDiasReservas.length-1&& tdDiasReservas[j+1].style.backgroundColor=="white"){
+             
+                             tdDiasReservas[j].style.backgroundColor="green"; 
                            tdDiasReservas[j+1].style.backgroundColor="green";
                            
                            document.getElementById("setmanes").disabled=true;
                            
-                       }else{
-                           tdDiasReservas[j].style.backgroundColor="white";
-                           alert("reserva no disponible");
+                       }else{  //       tdDiasReservas[j+1].style.backgroundColor="white";
+                           alert("Reserva no disponible.");
                        }
-                  }
+                  
      
       }
  

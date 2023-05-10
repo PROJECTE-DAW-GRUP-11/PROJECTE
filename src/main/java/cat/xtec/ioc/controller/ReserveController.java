@@ -38,13 +38,12 @@ public class ReserveController {
     
       //RETORNA TOTES LES REPARACIONS
     @RequestMapping("/llistar")
-    public ModelAndView allReserves(@RequestParam("idusuari") String idUsuari
-            ,HttpServletRequest request, HttpServletResponse response)
+    public ModelAndView allReserves(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, Exception {
         ModelAndView modelview = new ModelAndView("reserves/reserves");
         
-       String usuari=idUsuari.substring(0,idUsuari.length()-1); 
-        if (idUsuari != null) {
+       String usuari=(String) request.getSession().getAttribute("id");
+        if (usuari != null) {
             modelview.getModelMap().addAttribute("reservesusuari", reserveService.getReservesByUsuari(usuari));
           //   modelview.getModelMap().addAttribute("reserves", reserveService.getAllReserves());
         } 
@@ -104,5 +103,18 @@ ModelAndView modelview = new ModelAndView("reserves/reserve");
        return modelview;
 
 }
+ @RequestMapping("/eliminarReserva")
+    public String eliminarReserve(@RequestParam("idreserve") String idReserve
+            ,HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException, Exception {
+        
+        
+        Reserve reserve=new Reserve();
+        
+        reserve.setIdReserve(Integer.parseInt(idReserve));
+        
+  reserveService.deleteReserve(reserve);
 
+        return "redirect:/reserves/llistar";
+    }
 }
