@@ -254,11 +254,6 @@
                     <img src="/PROJECTE/resources/img/fletxa_2.svg" alt="Logo" style="width: 90px;">
                 </a>
                 <% }%>
-
-
-
-                <img src="/PROJECTE/resources/img/fletxa_2.svg" alt="Logo" style="width: 90px;">
-                </a>
                 <br>
                 <hr class="w-25">
                 <br>

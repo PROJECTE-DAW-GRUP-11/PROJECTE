@@ -144,7 +144,15 @@ pageEncoding="ISO-8859-1" %>
                                  - Si es carega el formulari a la pàgina /usuaris/afegir, el botó d'eliminar quedarà deshabilitat. Això no passarà a la pàgina modificar
                             -->
 
-                            <input type="submit" id="btnDelete" class="btn btn-primary" value ="Eliminar" name="eliminar" onclick="return confirmAction();" />
+                             <% if ("Administrador".equals(session.getAttribute("rol"))) {%>
+                        <input type="submit" id="btnDelete" class="btn btn-primary" value ="Eliminar" name="eliminar" onclick="return confirmAction();" />
+                             <% } else {%>
+                               <input type="submit" id="btnDelete" class="btn btn-primary" value ="Eliminar" name="eliminar" onclick="return confirmAction();" disabled />
+                                    <% }%>
+                            
+                            
+                            
+                            
                         </div>
                     </div>
                 </fieldset>

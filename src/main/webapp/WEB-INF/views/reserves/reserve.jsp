@@ -107,7 +107,7 @@
                     <h2 class="ml-2">Reserva d'espais </h2>
                 </div>
             </div>    
-
+            
             <h3><a href="<spring:url value='/espais/espai?codi=${idsala}'/>">${idsala}</a></h3>
 
             <div class="container" style="margin-top:65px">
@@ -119,24 +119,25 @@
                     </c:forEach>
                 </select>
         </section>
+            <br>
 
         <section class="container">
             <div class="table-responsive">
                 <table  id="mytable" class="table">
-                    <thead>
+                    <thead class="thead-dark">
                     <th style="background-color:white;"class="titulo"  scope="col"></th>
-                    <th class="text-center" scope="col">8:00</th>
-                    <th class="text-center" scope="col">9:00</th>
-                    <th class="text-center" scope="col">10:00</th>
-                    <th class="text-center" scope="col">11:00</th>
-                    <th class="text-center" scope="col">12:00</th>
-                    <th class="text-center" scope="col">13:00</th>
-                    <th class="text-center" scope="col">14:00</th>
-                    <th class="text-center" scope="col">15:00</th>
-                    <th class="text-center" scope="col">16:00</th>
-                    <th class="text-center" scope="col">17:00</th>
-                    <th class="text-center" scope="col">18:00</th>
-                    <th class="text-center" scope="col">19:00</th>
+                    <th class="text-center" scope="col">8</th>
+                    <th class="text-center" scope="col">9</th>
+                    <th class="text-center" scope="col">10</th>
+                    <th class="text-center" scope="col">11</th>
+                    <th class="text-center" scope="col">12</th>
+                    <th class="text-center" scope="col">13</th>
+                    <th class="text-center" scope="col">14</th>
+                    <th class="text-center" scope="col">15</th>
+                    <th class="text-center" scope="col">16</th>
+                    <th class="text-center" scope="col">17</th>
+                    <th class="text-center" scope="col">18</th>
+                    <th class="text-center" scope="col">19</th>
                     </thead>       
 
                     <tr scope="row" class="table-row-link" id="dilluns" name="dilluns">
