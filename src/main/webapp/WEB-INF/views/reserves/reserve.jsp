@@ -287,8 +287,8 @@
                                 </tr>
                             </c:forEach>
                         </table>
-                        <a value="<%session.getAttribute("reserves");%>"></a>
-                        <a href="javascript:window.history.back()" style="display: flex; justify-content: center; align-items: center;">
+                        
+                        <a href="<spring:url value='/reserves/llistar'/>" style="display: flex; justify-content: center; align-items: center;">
                             <img src="/PROJECTE/resources/img/fletxa_2.svg" alt="Logo" style="width: 90px;">
                         </a>
 

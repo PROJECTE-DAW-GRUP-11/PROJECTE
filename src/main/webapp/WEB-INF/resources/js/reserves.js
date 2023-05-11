@@ -1,4 +1,4 @@
-
+/*  
  //iniciar select2
 $(document).ready(function() {
     $('.js-example-basic-single').select2();
@@ -9,7 +9,7 @@ function myFunction(){
     var indexSala=document.getElementById("idsala").selectedIndex ;
   var filterSala = document.getElementById("idsala").options[indexSala].text;
 
-   if(filterSala!=="SALES"){
+   if(filterSala!=="Reservar sala"){
        var x=document.getElementById("btnReservar");
        x.value=filterSala;
        return true;
@@ -51,7 +51,7 @@ function selFunction(){
           visibleSetmana =false;
           
     
-    /* Obtenemos todas las celdas de la fila, no sólo la primera */
+    // Obtenemos todas las celdas de la fila, no sólo la primera 
     td = tr[i].getElementsByTagName("td");
     for (j = 0; j < td.length; j++) {
         
@@ -80,6 +80,11 @@ visibleSetmana = true;
 }
    
 }
+
+
+*/
+
+
 
 function reservesSetmana(){
     var indexSetmanes=document.getElementById("setmanes").selectedIndex ;

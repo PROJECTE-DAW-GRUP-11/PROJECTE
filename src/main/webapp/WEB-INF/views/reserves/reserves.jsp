@@ -47,7 +47,7 @@
                     margin-top: -8px;
                 }
             </style>
-            <script src="<c:url value="/resources/js/reserves.js" />"></script>
+            <script src="<c:url value="/resources/js/reservesLlistat.js" />"></script>
         </head>
         <body>
 
@@ -101,8 +101,8 @@
                     <fieldset>
 
                         
-                            <select id="idsala" name="idsala" class="form-control input-lg" onchange="this.form.submit()" form="myform">
-                                <option value="Sales">Reservar sala</option>
+                            <select id="idsala" name="idsala" class="form-control input-lg" onchange="myFunction()" form="myform">
+                                <option value="Reservar sala">Reservar sala</option>
                                 <c:forEach items="${sales}" var="sala">
 
                                     <option value="${sala.codi}">${sala.codi}</option>

@@ -1,3 +1,8 @@
+/** Classe encarregada de realitzar la connexió a la BD
+ *
+ * @author: Grup 11 - Xavi, Carlos, Ingrid, Denís
+ * @version:05/2023
+ */
 package cat.xtec.ioc.repository.impl;
 
 import java.io.IOException;
@@ -9,12 +14,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 import javax.ejb.Stateful;
 
-
-
-
-
 @Stateful
 public class Dbconnection {
+
     private String connectionFile;
 
     public Dbconnection() {
@@ -31,9 +33,15 @@ public class Dbconnection {
     public void setConnectionFile(String connectionFile) {
         this.connectionFile = connectionFile;
     }
-    
-    
-    
+
+    /**
+     * CONNECTAR A LA BD MITJANÇANT EL FITXER DE PROPIETATS:
+     * src\main\resources\db.properties
+     *
+     * @return
+     * @throws SQLException
+     * @throws IOException
+     */
     public Connection getConnection() throws SQLException, IOException {
         Properties props = new Properties();
         InputStream resourceAsStream = null;

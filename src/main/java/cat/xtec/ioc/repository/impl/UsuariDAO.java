@@ -1,3 +1,10 @@
+/**
+ * Classe encarregada de manipular la BD usuaris
+ *
+ * @author: Grup 11 - Xavi, Carlos, Ingrid, Denís
+ * @version:05/2023
+ *
+ */
 package cat.xtec.ioc.repository.impl;
 
 import cat.xtec.ioc.domain.Usuari;
@@ -38,6 +45,13 @@ public class UsuariDAO implements UsuariRepository {
         }
     }
 
+    /**
+     * OBTENIR USUARI PER ID
+     *
+     * @param idUsuari
+     * @return usuari
+     * @throws Exception
+     */
     @Override
     public Usuari getUsuariById(String idUsuari) throws Exception {
 
@@ -47,6 +61,13 @@ public class UsuariDAO implements UsuariRepository {
 
     }
 
+    /**
+     * OBTENIR USUARI PER NOM
+     *
+     * @param nom
+     * @return usuari
+     * @throws Exception
+     */
     @Override
     public Usuari getUsuariByName(String nom) throws Exception {
         String qry = "select * from usuaris where nom ='" + nom + "'";
@@ -55,6 +76,26 @@ public class UsuariDAO implements UsuariRepository {
 
     }
 
+    /**
+     * OBTENIR USUARI PER ROL
+     * @param rol
+     * @return usuari
+     * @throws SQLException 
+     */
+    @Override
+    public List<Usuari> getUsuarisByRol(String rol) throws SQLException {
+        String qry = "select * from usuaris where rol ='" + rol + "' ";
+        PreparedStatement preparedStatement = getPreparedStatement(qry);
+        List<Usuari> users = executeQuery(preparedStatement);
+        return users;
+    }
+
+    /**
+     * OBTENIR LLISAT D'USUARIS
+     *
+     * @return llistat usuaris
+     * @throws SQLException
+     */
     @Override
     public List<Usuari> getAllUsuaris() throws SQLException {
 
@@ -64,26 +105,35 @@ public class UsuariDAO implements UsuariRepository {
         return users;
     }
 
+    /**
+     * AFEGIR USUARI
+     *
+     * @param usuari
+     * @throws Exception
+     */
     @Override
     public void addUsuari(Usuari usuari) throws Exception {
 
+        String qry = "INSERT INTO usuaris(idusuari,nom,cognoms,password,email,rol,telefon) VALUES (?,?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = getPreparedStatement(qry);
+        preparedStatement.setString(1, usuari.getIdUsuari().toUpperCase());
+        preparedStatement.setString(2, usuari.getNom());
+        preparedStatement.setString(3, usuari.getCognoms());
+        preparedStatement.setString(4, usuari.getPassword());
+        preparedStatement.setString(5, usuari.getEmail());
+        preparedStatement.setString(6, usuari.getRol());
+        preparedStatement.setString(7, usuari.getTelefon());
 
-            String qry = "INSERT INTO usuaris(idusuari,nom,cognoms,password,email,rol,telefon) VALUES (?,?,?,?,?,?,?)";
-            PreparedStatement preparedStatement = getPreparedStatement(qry);
-            preparedStatement.setString(1, usuari.getIdUsuari().toUpperCase());
-            preparedStatement.setString(2, usuari.getNom());
-            preparedStatement.setString(3, usuari.getCognoms());
-            preparedStatement.setString(4, usuari.getPassword());
-            preparedStatement.setString(5, usuari.getEmail());
-            preparedStatement.setString(6, usuari.getRol());
-            preparedStatement.setString(7, usuari.getTelefon());
-
-            createOrUpdateUsuaris(usuari.getIdUsuari(), preparedStatement);
-
-        
+        createOrUpdateUsuaris(usuari.getIdUsuari(), preparedStatement);
 
     }
 
+    /**
+     * ACTUALITZAR INFORMACIÓ USUARI
+     *
+     * @param usuari
+     * @throws Exception
+     */
     @Override
     public void updateUsuari(Usuari usuari) throws Exception {
         System.out.println("Entro a update usuari");
@@ -95,6 +145,12 @@ public class UsuariDAO implements UsuariRepository {
 
     }
 
+    /**
+     * ELIMINAR USUARI
+     *
+     * @param usuari
+     * @throws Exception
+     */
     @Override
     public void deleteUsuari(Usuari usuari) throws Exception {
         System.out.println("Entro a eliminar usuari");
@@ -168,10 +224,14 @@ public class UsuariDAO implements UsuariRepository {
         return resultat;
     }
 
+    /**
+     * INSERIR INFORMACIO A LA BD USUARIS
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
     private Usuari buildUsuariFromResultSet(ResultSet rs) throws SQLException {
-        /*
-        Objectiu: retorna un nou objecte de usuari a partir del de ResultSet        
-         */
         String idUsuari = rs.getString("idusuari");
         String nom = rs.getString("nom");
         String cognoms = rs.getString("cognoms");
@@ -190,14 +250,6 @@ public class UsuariDAO implements UsuariRepository {
 
     public void setConnection(Connection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public List<Usuari> getUsuarisByRol(String rol) throws SQLException {
-         String qry = "select * from usuaris where rol ='"+ rol +"' ";
-        PreparedStatement preparedStatement = getPreparedStatement(qry);
-         List<Usuari> users = executeQuery(preparedStatement);
-        return users;
     }
 
 }

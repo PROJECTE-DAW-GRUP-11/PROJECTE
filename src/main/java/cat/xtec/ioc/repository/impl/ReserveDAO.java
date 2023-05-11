@@ -1,6 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * Classe encarregada de manipular la BD reserves
+ *
+ * @author: Grup 11 - Xavi, Carlos, Ingrid, Denís
+ * @version:05/2023
  */
 package cat.xtec.ioc.repository.impl;
 
@@ -22,18 +24,16 @@ import javax.naming.NamingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-/**
- *
- * @author Charlie-Home
- */
+
+
 @Repository
 public class ReserveDAO implements ReserveRepository {
 
-      private Dbconnection dBConnection;
+    private Dbconnection dBConnection;
 
     private Connection connection;
-    
-      @Autowired
+
+    @Autowired
     ReserveService reserveService;
 
     public ReserveDAO(Dbconnection dBConnection) {
@@ -58,6 +58,11 @@ public class ReserveDAO implements ReserveRepository {
 
     }
 
+    /**
+     * OBTENIR TOTES LES RESERVES
+     * @return llistat de reserves
+     * @throws SQLException 
+     */
     @Override
     public List<Reserve> getAllReserves() throws SQLException {
         String qry = "select * from reserves";
@@ -69,9 +74,15 @@ public class ReserveDAO implements ReserveRepository {
         return reserves;
     }
 
+    /**
+     * OBTENIR RESERVA PER ESPAI
+     * @param idSala
+     * @return reserva
+     * @throws Exception 
+     */
     @Override
     public List<Reserve> getReservesBySala(String idSala) throws Exception {
-         String qry = "select * from reserves where idsala ='" + idSala + "' ";
+        String qry = "select * from reserves where idsala ='" + idSala + "' ";
 
         PreparedStatement preparedStatement = getPreparedStatement(qry);
 
@@ -80,6 +91,12 @@ public class ReserveDAO implements ReserveRepository {
         return reserves;
     }
 
+    /**
+     * OBTENIR RESERVES PER USUARI
+     * @param idUsuari
+     * @return llistat reserves
+     * @throws Exception 
+     */
     @Override
     public List<Reserve> getReservesByUsuari(String idUsuari) throws Exception {
         String qry = "select * from reserves where idusuari ='" + idUsuari + "' ";
@@ -92,18 +109,29 @@ public class ReserveDAO implements ReserveRepository {
 
     }
 
+    /**
+     * OBTENIR RESERVA PER IDRESERVA
+     * @param idReserve
+     * @return reserva
+     * @throws Exception 
+     */
     @Override
     public Reserve getReserveByIdReserve(int idReserve) throws Exception {
-         String qry = "select * from reserves where idreserve ='" + idReserve + "'";
+        String qry = "select * from reserves where idreserve ='" + idReserve + "'";
 
         PreparedStatement preparedStatement = getPreparedStatement(qry);
 
         return findUniqueResult(preparedStatement);
     }
 
+    /**
+     * AFEGIR RESERVA
+     * @param reserve
+     * @throws Exception 
+     */
     @Override
     public void addReserve(Reserve reserve) throws Exception {
-       String qry = "INSERT INTO reserves(idsala,idusuari,setmana,hora,temps,dia) VALUES (?,?,?,?,?,?)";
+        String qry = "INSERT INTO reserves(idsala,idusuari,setmana,hora,temps,dia) VALUES (?,?,?,?,?,?)";
         PreparedStatement preparedStatement = getPreparedStatement(qry);
         preparedStatement.setString(1, reserve.getIdSala());
         preparedStatement.setString(2, reserve.getIdUsuari());
@@ -114,6 +142,11 @@ public class ReserveDAO implements ReserveRepository {
         createOrUpdateReserve(reserve.getIdReserve(), preparedStatement);
     }
 
+    /**
+     * ACTUALITZAR RESERVA
+     * @param reserve
+     * @throws Exception 
+     */
     @Override
     public void updateReserve(Reserve reserve) throws Exception {
         String qry = "DELETE FROM reserves WHERE idreserve = '" + reserve.getIdReserve() + "'";
@@ -122,16 +155,19 @@ public class ReserveDAO implements ReserveRepository {
         addReserve(reserve);
     }
 
+    /**
+     * ELIMINAR RESERVA
+     * @param reserve
+     * @throws Exception 
+     */
     @Override
     public void deleteReserve(Reserve reserve) throws Exception {
-       String qry = "DELETE FROM reserves WHERE idreserve = '" + reserve.getIdReserve() + "'";
+        String qry = "DELETE FROM reserves WHERE idreserve = '" + reserve.getIdReserve() + "'";
         PreparedStatement preparedStatement = getPreparedStatement(qry);
         createOrUpdateReserve(reserve.getIdReserve(), preparedStatement);
     }
-    
-    
-    
-        private Reserve createOrUpdateReserve(int idReserve, PreparedStatement preparedStatement) throws Exception {
+
+    private Reserve createOrUpdateReserve(int idReserve, PreparedStatement preparedStatement) throws Exception {
 
         int result = executeUpdateQuery(preparedStatement);
         return getReserveByIdReserve(idReserve);
@@ -232,6 +268,13 @@ public class ReserveDAO implements ReserveRepository {
 
     }
 
+    
+    /**
+     * INSERIR INFORMACIO RESERVA A LA BD
+     * @param rs
+     * @return 
+     * @throws SQLException 
+     */
     private Reserve buildReserveFromResultSet(ResultSet rs) throws SQLException {
 
         int idReserve = rs.getInt("idreserve");
@@ -239,14 +282,14 @@ public class ReserveDAO implements ReserveRepository {
         String idSala = rs.getString("idsala");
 
         String idUsuari = rs.getString("idusuari");
-        
-         int setmana = rs.getInt("setmana");      
 
-         int hora = rs.getInt("hora");
-         
-          int temps = rs.getInt("temps");
-          
-            String dia = rs.getString("dia");
+        int setmana = rs.getInt("setmana");
+
+        int hora = rs.getInt("hora");
+
+        int temps = rs.getInt("temps");
+
+        String dia = rs.getString("dia");
 
         Reserve reserve = new Reserve(idReserve, idSala, idUsuari, setmana, dia, hora, temps);
 

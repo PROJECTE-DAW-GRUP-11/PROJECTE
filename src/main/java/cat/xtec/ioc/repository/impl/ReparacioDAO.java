@@ -1,3 +1,9 @@
+/**
+ * Classe encarregada de manipular la BD reparacions.
+ *
+ * @author: Grup 11 - Xavi, Carlos, Ingrid, Denís
+ * @version:05/2023
+ */
 package cat.xtec.ioc.repository.impl;
 
 import cat.xtec.ioc.domain.Reparacio;
@@ -41,6 +47,13 @@ public class ReparacioDAO implements ReparacioRepository {
         }
     }
 
+    /**
+     * OBTENIR REPARACIÓ PER ID
+     *
+     * @param idReparacio
+     * @return reparacio
+     * @throws Exception
+     */
     @Override
     public Reparacio getReparacioById(int idReparacio) throws Exception {
 
@@ -50,6 +63,12 @@ public class ReparacioDAO implements ReparacioRepository {
 
     }
 
+    /**
+     * OBTENIR TOTES LES REPARACIONS
+     *
+     * @return llistat de reparacions
+     * @throws SQLException
+     */
     @Override
     public List<Reparacio> getAllReparacions() throws SQLException {
 
@@ -59,7 +78,12 @@ public class ReparacioDAO implements ReparacioRepository {
         return reparacions;
     }
 
-    /*CREAR UNA NOVA REPARACIÓ*/
+    /**
+     * CREAR UNA NOVA REPRACIÓ
+     *
+     * @param reparacio
+     * @throws Exception
+     */
     @Override
     public void addEquipReparacio(Reparacio reparacio) throws Exception {
         System.out.println("Entro a addEquipReparacio de ReparacioDAO");
@@ -74,22 +98,26 @@ public class ReparacioDAO implements ReparacioRepository {
         preparedStatement.setString(7, reparacio.getEstat());
         createOrUpdateReparacions(reparacio.getIdReparacio(), preparedStatement);
     }
-    
-    /*ACTUALTIZAR UNA REPARACIÓ*/
-    public void updateReparacio(Reparacio reparacio) throws Exception{
-    System.out.println("Entro a updateReparacio de ReparacioDAO");
-    String qry = "UPDATE reparacions SET idequip = ?, datainici = ?, datafi = ?, comentaris = ?, tecnic = ?, comentaritancament = ?, estat = ? WHERE idreparacio = '" + reparacio.getIdReparacio() + "'";
-    PreparedStatement preparedStatement = getPreparedStatement(qry);
-    preparedStatement.setString(1, reparacio.getIdEquip());
-    preparedStatement.setString(2, reparacio.getDataInici());
-    preparedStatement.setString(3, reparacio.getDataFi());
-    preparedStatement.setString(4, reparacio.getComentaris());
-    preparedStatement.setString(5, reparacio.getTecnic());
-    preparedStatement.setString(6, reparacio.getComentariTancament());
-    preparedStatement.setString(7, reparacio.getEstat());
-    createOrUpdateReparacions(reparacio.getIdReparacio(), preparedStatement);
-}
-    
+
+    /**
+     * ACTUALTIZAR UNA REPARACIÓ
+     *
+     * @param reparacio
+     * @throws Exception
+     */
+    public void updateReparacio(Reparacio reparacio) throws Exception {
+        System.out.println("Entro a updateReparacio de ReparacioDAO");
+        String qry = "UPDATE reparacions SET idequip = ?, datainici = ?, datafi = ?, comentaris = ?, tecnic = ?, comentaritancament = ?, estat = ? WHERE idreparacio = '" + reparacio.getIdReparacio() + "'";
+        PreparedStatement preparedStatement = getPreparedStatement(qry);
+        preparedStatement.setString(1, reparacio.getIdEquip());
+        preparedStatement.setString(2, reparacio.getDataInici());
+        preparedStatement.setString(3, reparacio.getDataFi());
+        preparedStatement.setString(4, reparacio.getComentaris());
+        preparedStatement.setString(5, reparacio.getTecnic());
+        preparedStatement.setString(6, reparacio.getComentariTancament());
+        preparedStatement.setString(7, reparacio.getEstat());
+        createOrUpdateReparacions(reparacio.getIdReparacio(), preparedStatement);
+    }
 
     private Reparacio createOrUpdateReparacions(int idReparacio, PreparedStatement preparedStatement) throws Exception {
 
@@ -155,6 +183,12 @@ public class ReparacioDAO implements ReparacioRepository {
         return resultat;
     }
 
+    /**
+     * INSEREIX INFORMACIÓ REPARACIÓ A BD
+     * @param rs
+     * @return reparacio
+     * @throws SQLException 
+     */
     private Reparacio buildUsuariFromResultSet(ResultSet rs) throws SQLException {
         int idReparacio = rs.getInt("idReparacio");
         String idEquip = rs.getString("idEquip");
@@ -165,7 +199,7 @@ public class ReparacioDAO implements ReparacioRepository {
         String comentariTancament = rs.getString("comentariTancament");
         String estat = rs.getString("estat");
 
-        Reparacio reparacio = new Reparacio(idReparacio, idEquip,dataInici, dataFi, comentaris, tecnic, comentariTancament, estat);
+        Reparacio reparacio = new Reparacio(idReparacio, idEquip, dataInici, dataFi, comentaris, tecnic, comentariTancament, estat);
         return reparacio;
     }
 

@@ -67,8 +67,8 @@
                 </div>
             </div>    
             <div class="container" style="margin-top:65px">
-                <div class="row align-content-center justify-content-center" style=" background-color:#0071BC">
-                    <div class="col-4 col-md-4 col-xl-4 bg-primary">
+                <div class="row align-content-center justify-content-center">
+                    <div class="col-4 col-md-4 col-xl-4 bg-primary"  style=" background-color:#0071BC" >
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title text-center"></h3>
